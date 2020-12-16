@@ -1,0 +1,116 @@
+﻿@model EmployeePayrollMVC.Models.Common.RegisterRequestModel
+
+@{
+    ViewBag.Title = "RegisterEmployee";
+}
+<style>
+    .error {
+        color: red
+    }
+</style>
+
+@using (Html.BeginForm("RegisterEmployee", "Employee", FormMethod.Post))
+{
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+        <link href="~/Content/CustomCss/register.css" rel="stylesheet" />
+        <title>Employee Payroll Form</title>
+    </head>
+
+    <body>
+
+        <div>
+            <header class="header">Employee Payroll Form</header>
+        </div>
+        <div class="form">
+            <form>
+                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                <div class="row">
+                    @Html.ValidationMessageFor(x => x.name, "", new { @class = "error" })
+                    <label>Name</label>
+                    @Html.TextBoxFor(x => x.name, new { @class = "form-control", id = "NameId" })
+                </div>
+                @Html.ValidationMessageFor(x => x.gender, "", new { @class = "error" })
+                <div style="display:flex;justify-content:space-around;margin-right:40%;padding-top:10px;">
+
+                    <label style="padding: 0px 21px 0px 0px;">Gender</label>
+                    @Html.RadioButtonFor(model => model.gender, "Male", new { style = "margin: 4px;margin-left: 12px;" })
+                    Male
+
+                    @Html.RadioButtonFor(model => model.gender, "Female", new { style = "margin: 4px;margin-left: 12px;" })
+                    Female
+                </div>
+                @Html.ValidationMessageFor(x => x.department, "", new { @class = "error" })
+                <div style="display: flex;flex-direction: row;justify-content: space-around;margin-left: 32%;padding-top: 10px;">
+
+                    <label style=" padding: 0px 12px 5px 0px;">Department</label>
+                    @Html.RadioButtonFor(x => x.department, "Computer", new { @id = "Computer", style = "margin: 4px;margin-left: 12px;" })
+                    Computer
+                    @Html.RadioButtonFor(x => x.department, "HR", new { id = "HR", style = "margin: 4px;margin-left: 12px;" })
+                    HR
+                    @Html.RadioButtonFor(x => x.department, "Sales", new { id = "Sales", style = "margin: 4px;margin-left: 12px;" })
+                    Sales
+                    @Html.RadioButtonFor(x => x.department, "Engineer", new { id = "Engineer", style = "margin: 4px;margin-left: 12px;" })
+                    Engineer
+                    @Html.RadioButtonFor(x => x.department, "Others", new { id = "Others", style = "margin: 4px;margin-left: 12px;" })
+                    Others
+                </div>
+                <div class="row">
+                    <label>Salary</label>
+                        @Html.ValidationMessageFor(x => x.salaryid, "", new { @class = "error" })
+                        @Html.DropDownListFor(x => x.salaryid, new List<SelectListItem>
+                                           {
+                new SelectListItem{ Text="10000", Value = "2" },
+               new SelectListItem{ Text="20000", Value = "1" },
+               new SelectListItem{ Text="30000", Value = "3" },
+               new SelectListItem{ Text="40000", Value = "4" },
+               new SelectListItem{ Text="50000", Value = "5" }
+            }, "Select Salary")
+                   
+
+                </div>
+                <div class="row">
+                    <label>Start Date</label>
+
+                    @Html.ValidationMessageFor(x => x.startdate, "", new { @class = "error" })
+                    @Html.TextBoxFor(model => model.startdate, new { type = "date" })
+
+                </div>
+                <div class="row">
+                    <label>Notes</label>
+                    @Html.TextBoxFor(x => x.description, new { @class = "form-control" })
+                </div>
+            </form>
+            <div class="btnColumn">
+                <button type="submit" class="btn btn-primary" onclick="return validate()">Submit</button>
+                <button type="reset" class="btn bg-danger">Reset</button>
+                <a href="@Url.Action("EmployeeList", "Employee")" class="btn btn-success">Employee List</a>
+            </div>
+        </div>
+    </body>
+    <script>
+        const name = document.getElementById("NameId");
+        name.addEventListener("input", function (event) {
+            if (name.value.length == 0) {
+                name.setCustomValidity("Please enter Name");
+            } else {
+                email.setCustomValidity("");
+            }
+        });
+        function validate() {
+            if (document.getElementById("NameId").value.length == 0) {
+                alert("Name is required");
+                return false;
+            }
+        };
+    </script>
+
+}
+
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>
+

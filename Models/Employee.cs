@@ -16,14 +16,10 @@ namespace EmployeePayrollMVC.Models
         public string name { get; set; }
 
         public string gender { get; set; }
-
         public int deptid { get; set; }
-
         [ForeignKey("deptid")]
         public Department Department { get; set; }
-
         public int salaryid { get; set; }
-
         [ForeignKey("salaryid")]
         public Salary salary { get; set; }
 
