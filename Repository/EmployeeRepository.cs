@@ -37,5 +37,53 @@ namespace EmployeePayrollMVC.Repository
                 throw e;
             }
         }
+        public Employee GetEmployee(int id)
+        {
+            try
+            {
+                Employee list = dbContext.Employees.Where(x => x.empid == id).SingleOrDefault();
+
+                return list;
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
+        }
+        public bool RegisterEmployee(RegisterRequestModel employee)
+        {
+
+            try
+            {
+                Employee validEmployee = dbContext.Employees.Where(x => x.name == employee.name && x.gender == employee.gender).FirstOrDefault();
+                if (validEmployee == null)
+                {
+                    int departmentId = dbContext.Departments.Where(x => x.deptname == employee.department).Select(x => x.deptid).FirstOrDefault();
+                    Employee newEmployee = new Employee()
+                    {
+                        name = employee.name,
+                        gender = employee.gender,
+                        deptid = departmentId,
+                        salaryid = Convert.ToInt32(employee.salaryid),
+                        startdate = employee.startdate,
+                        description = employee.description
+                    };
+                    Employee returnData = dbContext.Employees.Add(newEmployee);
+                }
+                int result = dbContext.SaveChanges();
+                if (result > 0)
+                {
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
+        }
     }
 }
