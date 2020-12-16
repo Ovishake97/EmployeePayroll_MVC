@@ -51,5 +51,20 @@ namespace EmployeePayrollMVC.Controllers
                 return View("Edit");
 
         }
+        public ActionResult Delete(Employee model)
+        {
+            Employee emp = employeeRepository.GetEmployee(model.empid);
+
+            return View(emp);
+        }
+        [HttpPost]
+        public ActionResult DeleteEmployee(Employee model)
+        {
+            int result = employeeRepository.DeleteEmployee(model.empid);
+            if (result != 0)
+                return RedirectToAction("Index");
+            else
+                return View("Delete", result);
+        }
     }
 }
