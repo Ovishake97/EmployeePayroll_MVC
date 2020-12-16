@@ -1,4 +1,5 @@
-﻿using EmployeePayrollMVC.Models.Common;
+﻿using EmployeePayrollMVC.Models;
+using EmployeePayrollMVC.Models.Common;
 using EmployeePayrollMVC.Repository;
 using System;
 using System.Collections.Generic;
@@ -34,6 +35,21 @@ namespace EmployeePayrollMVC.Controllers
                 return RedirectToAction("Index");
             }
             return View(employee);
+        }
+        public ActionResult Edit(Employee model)
+        {
+            Employee emp = employeeRepository.GetEmployee(model.empid);
+
+            return View(emp);
+        }
+        public ActionResult Update(Employee model)
+        {
+            int data = employeeRepository.Update(model);
+            if (data != 0)
+                return RedirectToAction("Index");
+            else
+                return View("Edit");
+
         }
     }
 }

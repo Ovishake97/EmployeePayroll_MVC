@@ -85,5 +85,25 @@ namespace EmployeePayrollMVC.Repository
                 throw e;
             }
         }
+        public int Update(Employee model)
+        {
+            var data = dbContext.Employees.FirstOrDefault(x => x.empid == model.empid);  
+            if (data != null)
+            {
+                data.empid = model.empid;
+                data.name = model.name;
+                data.gender = model.gender;
+                data.deptid = model.deptid;
+                data.Department = model.Department;
+                data.salaryid = model.salaryid;
+                data.salary = model.salary;
+                data.startdate = model.startdate;
+                data.description = model.description;
+                return dbContext.SaveChanges();
+            }
+            else
+                return 0;
+
+        }
     }
 }
